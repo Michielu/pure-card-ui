@@ -1,6 +1,8 @@
+import About from './About';
 import App from './App';
-import Home from './Home'
+import Cards from './Cards';
+import Home from './Home';
 
 export {
-    App, Home
+    About, App, Cards, Home
 }
