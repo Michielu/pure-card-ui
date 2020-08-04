@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Home } from '../index';
 import { PCNav } from '../../partials';
 import Router from '../../utils/Router';
+import { setupStore } from '../../utils/Storage/IDB';
 
 function App() {
+
+  useEffect(() => {
+    setupStore();
+  }, [])
+
   return (
     <div>
       <PCNav />
