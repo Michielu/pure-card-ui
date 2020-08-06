@@ -1,4 +1,4 @@
-const DB_NAME = "db1"
+const DB_NAME = "idb1"
 const STORE_NAME = "store1";
 
 export {

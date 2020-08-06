@@ -1,4 +1,3 @@
-import { idb } from "./idb";
 import { openDB } from "idb";
 
 import { DB_NAME, STORE_NAME } from './consts';
@@ -16,23 +15,26 @@ interface StoreItem {
     value: any
 }
 
+let db: any = null;
+
 const addToStore = async (item: StoreItem) => {
-    (await idb.db1).put(STORE_NAME, item.value, item.key);
+    //TODo add check if db is initialied
+    db.put(STORE_NAME, item.value, item.key);
 }
 
 const getFromStore = async (key: string) => {
-    // (await idb.db1).get(STORE_NAME, key).then(console.log);
+    db.get(STORE_NAME, key).then(console.log);
 }
 
 const getAllFromStore = async () => {
-    // (await idb.db1).getAll(STORE_NAME).then(console.log);
+    db.getAll(STORE_NAME).then(console.log);
 }
 
 const setupStore = async () => {
-    openDB(DB_NAME, 1, {
+    db = await openDB(DB_NAME, 1, {
         upgrade(db) {
             db.createObjectStore(STORE_NAME);
-        },
+        }
     });
 }
 
