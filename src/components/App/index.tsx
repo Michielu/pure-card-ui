@@ -3,7 +3,7 @@ import './App.css';
 import { Home } from '../index';
 import { PCNav } from '../../partials';
 import Router from '../../utils/Router';
-import { setupStore } from '../../utils/Storage/IDB';
+import { setupStore } from '../../utils/IDB';
 
 function App() {
 
