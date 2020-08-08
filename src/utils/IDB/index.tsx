@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 
-import { DB_NAME, STORE_NAME } from './consts';
+import { DB_NAME, STORE_BEST, STORE_STAPLES, STORE_SPECIALTIES, STORE_CARDS } from './consts';
 // const DATABASE_VERSION = 2;
 // const db = idb.default;
 
@@ -19,21 +19,24 @@ let db: any = null;
 
 const addToStore = async (item: StoreItem) => {
     //TODo add check if db is initialied
-    db.put(STORE_NAME, item.value, item.key);
+    db.put(STORE_CARDS, item.value, item.key);
 }
 
 const getFromStore = async (key: string) => {
-    db.get(STORE_NAME, key).then(console.log);
+    db.get(STORE_CARDS, key).then(console.log);
 }
 
 const getAllFromStore = async () => {
-    db.getAll(STORE_NAME).then(console.log);
+    db.getAll(STORE_CARDS).then(console.log);
 }
 
 const setupStore = async () => {
     db = await openDB(DB_NAME, 1, {
         upgrade(db) {
-            db.createObjectStore(STORE_NAME);
+            db.createObjectStore(STORE_BEST);
+            db.createObjectStore(STORE_STAPLES);
+            db.createObjectStore(STORE_SPECIALTIES);
+            db.createObjectStore(STORE_CARDS);
         }
     });
 }
