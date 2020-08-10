@@ -12,10 +12,22 @@ code {
     monospace;
 }
 
+.pc-width-80{
+  width: 80%;
+}
+
 .pc-width-100{
   width: 100%;
 }
 
 .pc-padding-10{
   padding:10px;
+}
+
+.pc-margin-10{
+  margin:10px;
+}
+
+.pc-align-center{
+  align-items: center;
 }
