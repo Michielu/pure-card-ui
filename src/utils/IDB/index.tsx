@@ -1,13 +1,6 @@
 import { openDB } from "idb";
 
 import { DB_NAME, STORE_BEST, STORE_STAPLES, STORE_SPECIALTIES, STORE_CARDS } from './consts';
-// const DATABASE_VERSION = 2;
-// const db = idb.default;
-
-
-// export const BUCKETS = ['Bucket01', 'Bucket02']
-// export const BUSINESS_UNITS = ['BU1', 'BU2', 'BU3', 'BU4', 'BU5']
-// export const STATUS = ['In Progress', 'Completed', 'Pending'] 
 //https://hackernoon.com/use-indexeddb-with-idb-a-1kb-library-that-makes-it-easy-8p1f3yqq
 
 interface StoreItem {
@@ -17,17 +10,54 @@ interface StoreItem {
 
 let db: any = null;
 
-const addToStore = async (item: StoreItem) => {
-    //TODo add check if db is initialied
-    db.put(STORE_CARDS, item.value, item.key);
+const addToCardStore = async (item: StoreItem) => {
+    if (db) {
+        db.put(STORE_CARDS, item.value, item.key);
+    }
 }
 
-const getFromStore = async (key: string) => {
-    db.get(STORE_CARDS, key).then(console.log);
+const addToBestStore = async (item: StoreItem) => {
+    db.put(STORE_BEST, item.value, item.key);
 }
 
-const getAllFromStore = async () => {
-    db.getAll(STORE_CARDS).then(console.log);
+const addToStaplesStore = async (item: StoreItem) => {
+    db.put(STORE_STAPLES, item.value, item.key);
+}
+
+const addToSpecialtiesStore = async (item: StoreItem) => {
+    db.put(STORE_SPECIALTIES, item.value, item.key);
+}
+
+const getFromCardStore = async (key: string) => {
+    if (db) {
+        return db.get(STORE_CARDS, key);
+    }
+    return null;
+}
+
+const getFromBestStore = async (key: string) => {
+    return db.get(STORE_BEST, key);
+}
+const getFromStaplesStore = async (key: string) => {
+    return db.get(STORE_STAPLES, key);
+}
+const getFromSpecialtiesStore = async (key: string) => {
+    return db.get(STORE_SPECIALTIES, key);
+}
+const getAllFromCardStore = async () => {
+    console.log("DB", db)
+    if (db) {
+        return db.getAll(STORE_CARDS);
+    } return null;
+}
+const getAllFromBestStore = async () => {
+    return db.getAll(STORE_BEST);
+}
+const getAllFromStaplesStore = async () => {
+    return db.getAll(STORE_STAPLES);
+}
+const getAllFromSpecialtiesStore = async () => {
+    return db.getAll(STORE_SPECIALTIES);
 }
 
 const setupStore = async () => {
@@ -42,5 +72,17 @@ const setupStore = async () => {
 }
 
 export {
-    addToStore, getFromStore, getAllFromStore, setupStore
+    addToCardStore,
+    addToBestStore,
+    addToStaplesStore,
+    addToSpecialtiesStore,
+    getFromCardStore,
+    getFromBestStore,
+    getFromStaplesStore,
+    getFromSpecialtiesStore,
+    getAllFromCardStore,
+    getAllFromBestStore,
+    getAllFromStaplesStore,
+    getAllFromSpecialtiesStore,
+    setupStore
 }
