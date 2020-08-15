@@ -16,6 +16,10 @@ code {
   width: 80%;
 }
 
+.pc-width-90{
+  width: 90%;
+}
+
 .pc-width-100{
   width: 100%;
 }
@@ -30,4 +34,43 @@ code {
 
 .pc-align-center{
   align-items: center;
+}
+
+
+
+.pc-form-input{
+  margin: 3px;
+  border-bottom: 1px solid #505050;
+  padding: 3px;
+}
+
+.pc-form-input-number{
+  width:43px;
+}
+
+.pc-form-input-text{
+  width:170px;
+}
+
+.pc-form-label{
+  display: contents;
+}
+
+.card .card-body{
+  text-align: start;
+}
+ 
+.pc-justify-content-center{
+  justify-content: center
+} 
+
+@media (max-width: 576px){
+  .app-content{
+    margin: 0px;
+  }
+
+  .pc-form-input-text{
+    width:30vw;
+  }
+
 }
