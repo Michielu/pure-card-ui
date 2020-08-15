@@ -1,9 +1,30 @@
 import { useState, useEffect, useRef } from "react";
 
+
+const defaultValues = {
+    cardName: "",
+    defaultPoints: "",
+    gas: "",
+    grocery: "",
+    fastFood: "",
+    resturant: "",
+    homeImprovement: "",
+    travel: "",
+    amazon: "",
+    cellPhone: "",
+    drugStore: "",
+    homeUtils: "",
+    airlines: "",
+    rideShares: "",
+    deptStores: "",
+    wholesaleClubs: ""
+}
+
+
 // Inspiratoin
 // https://www.telerik.com/blogs/how-to-build-custom-forms-react-hooks
 const useCustomForm = ({
-    initialValues = {},
+    initialValues = defaultValues,
     onSubmit = ({ }) => { }
 }) => {
     const [values, setValues] = useState(initialValues);
@@ -26,6 +47,7 @@ const useCustomForm = ({
         const { name, value } = target;
         event.persist();
         setValues({ ...values, [name]: value });
+        console.log("Values: ", values,)
     };
 
 
@@ -43,4 +65,5 @@ const useCustomForm = ({
     };
 };
 
-export default useSlatt;
+export { defaultValues };
+export default useCustomForm;
