@@ -5,7 +5,7 @@ import {
     Route
 } from "react-router-dom";
 
-import { About, Cards, Home } from '../../components';
+import { About, Cards, CardForm, Home } from '../../components';
 
 export default function Router() {
     return (
@@ -27,6 +27,9 @@ export default function Router() {
                     </Route>
                     <Route exact path="/about">
                         <About />
+                    </Route>
+                    <Route exact path="/add">
+                        <CardForm />
                     </Route>
                 </Switch>
             </div>
