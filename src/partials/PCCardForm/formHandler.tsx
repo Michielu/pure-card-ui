@@ -2,22 +2,22 @@ import { useState, useEffect, useRef } from "react";
 
 
 const defaultValues = {
-    cardName: "",
-    defaultPoints: "",
+    cardname: "",
+    defaultpercent: "",
     gas: "",
     grocery: "",
-    fastFood: "",
+    fastfood: "",
     resturant: "",
-    homeImprovement: "",
+    homeimprovement: "",
     travel: "",
     amazon: "",
-    cellPhone: "",
-    drugStore: "",
-    homeUtils: "",
+    cellphone: "",
+    drugstore: "",
+    homeutils: "",
     airlines: "",
-    rideShares: "",
-    deptStores: "",
-    wholesaleClubs: ""
+    rideshares: "",
+    deptstores: "",
+    wholesale: ""
 }
 
 

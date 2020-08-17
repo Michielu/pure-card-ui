@@ -24,86 +24,59 @@ interface Specialities {
 
 }
 
-interface inputFields {
-    label: string,
-    key: string,
-    isNumber?: string
-}
-
 interface FormFields {
     default: number,
     staples: Staples,
     specialties: Specialities
 }
 
-const required = [{
-    label: "Card Name",
-    key: "cardName",
-    isNumber: "false"
-}, {
-    label: "Default",
-    key: "defaultPoints"
-}]
+const required = [
+    "Card Name", "Default Percent"
+]
 
-const staples = [{
-    label: "Gas",
-    key: "gas"
-}, {
-    label: "Grocery",
-    key: "grocery"
-}, {
-    label: "Fast Food",
-    key: "fastFood"
-}, {
-    label: "Resturant",
-    key: "resturant"
-}, {
-    label: "Home improvement",
-    key: "homeImprovement"
-}, {
-    label: "Travel",
-    key: "travel"
-}];
+const staples = [
+    "Gas", "Grocery", "Fast Food",
+    "Resturant", "Home improvement",
+    "Travel"
+]
 
-const specialties = [{
-    label: "Amazon",
-    key: "amazon"
-},
-{
-    label: "Cell phone",
-    key: "cellPhone"
-},
-{
-    label: "Drug store",
-    key: "drugStore"
-},
-{
-    label: "Home Utils",
-    key: "homeUtils"
-},
-{
-    label: "Airlines",
-    key: "airlines"
-},
-{
-    label: "Ride shares",
-    key: "rideShares"
-},
-{
-    label: "Dept stores",
-    key: "deptStores"
-},
-{
-    label: "Wholesale",
-    key: "wholesale"
-}]
+const specialties = [
+    "Amazon", "Cell phone", "Drug store",
+    "Home Utils", "Airlines", "Ride shares",
+    "Dept stores", "Wholesale"
+]
+
+const convertCategoryToKey = (input: string): string => {
+    return input.replace(/\s/g, '').toLowerCase();
+}
+
+//TODO take this out
+interface submitType {
+    values: {}[],
+    errors: any
+}
+
+interface categoryPoints {
+
+}
 
 function PCCardForm() {
     const [fields, setFields] = useState({});
     //https://www.telerik.com/blogs/how-to-build-custom-forms-react-hooks
 
-    const onSubmit = (values: any) => console.log({ values })
+    const onSubmit = (input: submitType) => {
+        // console.log("input", input)
+        const { values } = input;
+        let defaultValue = "";
+        let staples = [];
+        let specialties = [];
 
+        for (let key in Object.keys(values)) {
+
+        }
+
+        console.log(values);
+    }
 
     const {
         values,
@@ -161,20 +134,21 @@ function PCCardForm() {
     )
 }
 
-function inputCards(fields: inputFields[], handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void, values: any) {
-    return fields.map((el: inputFields) => {
+function inputCards(fields: string[], handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void, values: any) {
+    return fields.map((el: string) => {
+        const cleaned = convertCategoryToKey(el);
         return (
-            <div key={`key-${el.label}`} className="row pc-form-input" >
+            <div key={`key-${el}`} className="row pc-form-input" >
                 <div className="col-6">
-                    {el.isNumber === "false" ?
-                        <label className="pc-form-label">{`${el.label} : `}</label> :
-                        <label className="pc-form-label">{`${el.label} %: `}</label>
+                    {el === "Default Percent" ?
+                        <label className="pc-form-label">{`${el} : `}</label> :
+                        <label className="pc-form-label">{`${el} %: `}</label>
                     }
                 </div>
                 <div className="col-6">
-                    {el.isNumber === "false" ?
-                        <input className="pc-form-input-text" type="text" onChange={handleChange} name={el.key} value={values[el.key]} /> :
-                        <input className="pc-form-input-number" type="number" onChange={handleChange} name={el.key} value={values[el.key]} />}
+                    {el === "Default Percent" ?
+                        <input className="pc-form-input-text" type="text" onChange={handleChange} name={cleaned} value={values[cleaned]} /> :
+                        <input className="pc-form-input-number" type="number" onChange={handleChange} name={cleaned} value={values[cleaned]} />}
                 </div>
             </div>
         )
