@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { formFields, submitType } from './formInterface';
 
-
-const defaultValues = {
+const defaultValues: formFields = {
     cardname: "",
     defaultpercent: "",
     gas: "",
@@ -20,15 +20,19 @@ const defaultValues = {
     wholesale: ""
 }
 
+const errorStates = {
+    cardname: "Card name required",
+    defaultpercent: "Default percentage required"
+}
 
-// Inspiratoin
+// Inspiration
 // https://www.telerik.com/blogs/how-to-build-custom-forms-react-hooks
 const useCustomForm = ({
     initialValues = defaultValues,
-    onSubmit = ({ }) => { }
+    onSubmit = (type: submitType) => { }
 }) => {
     const [values, setValues] = useState(initialValues);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState(errorStates);
     // const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
 
     const formRendered = useRef(true);
@@ -36,7 +40,7 @@ const useCustomForm = ({
     useEffect(() => {
         if (!formRendered.current) {
             setValues(initialValues);
-            setErrors({});
+            setErrors(errorStates);
             // setOnSubmitting(false);
         }
         formRendered.current = false;
@@ -45,15 +49,29 @@ const useCustomForm = ({
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target } = event;
         const { name, value } = target;
+        let err: any = { ...errors };
+
         event.persist();
         setValues({ ...values, [name]: value });
-        console.log("Values: ", values,)
+        if (name === "cardname") {
+            if (value != "") {
+                delete err.cardname;
+            } else {
+                err.cardname = errorStates.cardname;
+            }
+        } else if (name === "defaultpercent") {
+            if (value != "") {
+                delete err.defaultpercent;
+            } else {
+                err.defaultpercent = errorStates.defaultpercent;
+            }
+        }
+        setErrors(err)
     };
 
 
     const handleSubmit = (event: any) => {
         if (event) event.preventDefault();
-        setErrors({ ...errors });
         onSubmit({ values, errors });
     };
 
