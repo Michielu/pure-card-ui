@@ -1,31 +1,40 @@
 import { openDB } from "idb";
 
-import { DB_NAME, STORE_BEST, STORE_STAPLES, STORE_SPECIALTIES, STORE_CARDS } from './consts';
+import { DB_NAME, STORE_BEST, STORE_STAPLES, STORE_SPECIALTIES, STORE_CARDS, STORE_DEFAULT } from './consts';
 //https://hackernoon.com/use-indexeddb-with-idb-a-1kb-library-that-makes-it-easy-8p1f3yqq
 
 interface StoreItem {
     key: string;
-    value: any
+    values: any[]
+}
+
+interface BestItem {
+    category: string;
+    bestCard: string;
 }
 
 let db: any = null;
 
 const addToCardStore = async (item: StoreItem) => {
     if (db) {
-        db.put(STORE_CARDS, item.value, item.key);
+        db.put(STORE_CARDS, item.values, item.key);
     }
 }
 
-const addToBestStore = async (item: StoreItem) => {
-    db.put(STORE_BEST, item.value, item.key);
+const addToBestStore = async (item: BestItem) => {
+    db.put(STORE_BEST, item.bestCard, item.category);
 }
 
 const addToStaplesStore = async (item: StoreItem) => {
-    db.put(STORE_STAPLES, item.value, item.key);
+    db.put(STORE_STAPLES, item.values, item.key);
 }
 
 const addToSpecialtiesStore = async (item: StoreItem) => {
-    db.put(STORE_SPECIALTIES, item.value, item.key);
+    db.put(STORE_SPECIALTIES, item.values, item.key);
+}
+
+const addToDefaultStore = async (item: StoreItem) => {
+    db.put(STORE_DEFAULT, item.values, item.key);
 }
 
 const getFromCardStore = async (key: string) => {
@@ -44,6 +53,9 @@ const getFromStaplesStore = async (key: string) => {
 const getFromSpecialtiesStore = async (key: string) => {
     return db.get(STORE_SPECIALTIES, key);
 }
+const getFromDefaultStore = async (key: string) => {
+    return db.get(STORE_DEFAULT, key);
+}
 const getAllFromCardStore = async () => {
     console.log("DB", db)
     if (db) {
@@ -53,11 +65,14 @@ const getAllFromCardStore = async () => {
 const getAllFromBestStore = async () => {
     return db.getAll(STORE_BEST);
 }
-const getAllFromStaplesStore = async () => {
+const getAllFromStaplesStore: any = async () => {
     return db.getAll(STORE_STAPLES);
 }
-const getAllFromSpecialtiesStore = async () => {
+const getAllFromSpecialtiesStore: any = async () => {
     return db.getAll(STORE_SPECIALTIES);
+}
+const getAllFromDefaultStore: any = async () => {
+    return db.getAll(STORE_DEFAULT);
 }
 
 const setupStore = async () => {
@@ -67,6 +82,7 @@ const setupStore = async () => {
             db.createObjectStore(STORE_STAPLES);
             db.createObjectStore(STORE_SPECIALTIES);
             db.createObjectStore(STORE_CARDS);
+            db.createObjectStore(STORE_DEFAULT);
         }
     });
 }
@@ -76,13 +92,16 @@ export {
     addToBestStore,
     addToStaplesStore,
     addToSpecialtiesStore,
+    addToDefaultStore,
     getFromCardStore,
     getFromBestStore,
     getFromStaplesStore,
     getFromSpecialtiesStore,
+    getFromDefaultStore,
     getAllFromCardStore,
     getAllFromBestStore,
     getAllFromStaplesStore,
     getAllFromSpecialtiesStore,
+    getAllFromDefaultStore,
     setupStore
 }
