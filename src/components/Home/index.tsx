@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { getAllFromCardStore, addToCardStore } from '../../utils/IDB';
-import { PCAddCard } from '../../partials';
+import { getAllFromCardStore } from '../../utils/IDB';
+import { PCAddCard, PCShop } from '../../partials';
 
 function Home() {
     //TODO use custom hook
@@ -16,19 +16,13 @@ function Home() {
         getCards();
     }, []);
 
-    async function huh() {
-        const rv = await getAllFromCardStore();
-        console.log("RV", rv);
-    }
+
 
     return (
         <div>
-            {card.length > 0 ? <div>Contains card</div> : <PCAddCard></PCAddCard>}
-
-
-            <button onClick={() => addToCardStore({ key: "key1", value: ["a", "1"] })}>Post to store</button>
-            <button onClick={() => huh()}>Get from store</button>
-
+            {card.length > 0 ? null : <PCAddCard></PCAddCard>}
+            <br />
+            <PCShop></PCShop>
         </div >
     );
 }
