@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { formFields, submitType } from './formInterface';
+import { formFields, submitType } from '../../utils/interfaces/formInterface';
 
 const defaultValues: formFields = {
     cardname: "",
@@ -54,13 +54,13 @@ const useCustomForm = ({
         event.persist();
         setValues({ ...values, [name]: value });
         if (name === "cardname") {
-            if (value != "") {
+            if (value !== "") {
                 delete err.cardname;
             } else {
                 err.cardname = errorStates.cardname;
             }
         } else if (name === "defaultpercent") {
-            if (value != "") {
+            if (value !== "") {
                 delete err.defaultpercent;
             } else {
                 err.defaultpercent = errorStates.defaultpercent;
@@ -71,6 +71,7 @@ const useCustomForm = ({
 
 
     const handleSubmit = (event: any) => {
+        if (Object.keys(errors).length !== 0) return errors
         if (event) event.preventDefault();
         onSubmit({ values, errors });
     };
