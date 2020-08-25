@@ -1,12 +1,13 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import AddButton from './addButton';
 
 function PCAddCard() {
     return (
         <div>
             <Card className="pc-margin-10 pc-align-center">
                 <Card.Body>No cards found, please add a card</Card.Body>
-                <Button className="pc-width-80 pc-margin-10">Add card</Button>
+                <AddButton></AddButton>
             </Card>
         </div>
     )
