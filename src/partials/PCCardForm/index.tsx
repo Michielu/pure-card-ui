@@ -3,24 +3,16 @@ import { Accordion, Button, Card } from 'react-bootstrap';
 
 import { PCAccordian } from '../';
 import useCustomForm, { defaultValues } from "./formHandler";
-import { submitType } from './formInterface';
+import { submitType } from '../../utils/interfaces/formInterface';
+import {
+    addToCards, addToBest, addToDefaults, addToSpecialties, addToStaples
+} from '../../utils/IDB/updates'
+
+import {
+    required, specialties, staples
+} from '../../utils/data/categories';
 
 
-const required = [
-    "Card Name", "Default Percent"
-]
-
-const staples = [
-    "Gas", "Grocery", "Fast Food",
-    "Resturant", "Home improvement",
-    "Travel"
-]
-
-const specialties = [
-    "Amazon", "Cell phone", "Drug store",
-    "Home Utils", "Airlines", "Ride shares",
-    "Dept stores", "Wholesale"
-]
 
 function PCCardForm() {
     //https://www.telerik.com/blogs/how-to-build-custom-forms-react-hooks
@@ -42,6 +34,18 @@ function PCCardForm() {
             if (value === "" || value === "0") initialSpecialtyValues[i] = defaultValue;
         });
         console.log("Submit: ", cardName, defaultValue, initialStapleValues, initialSpecialtyValues, input.errors);
+
+
+        // addToCardStore(cardName);
+
+        // addToBestStore,
+        addToCards(cardName);
+        addToDefaults(cardName, defaultValue);
+        addToStaples(cardName, initialStapleValues);
+        addToSpecialties(cardName, initialSpecialtyValues);
+        addToBest(cardName, initialStapleValues, initialSpecialtyValues);
+
+
 
     }
 
