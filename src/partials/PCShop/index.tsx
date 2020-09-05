@@ -1,60 +1,124 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Form } from 'react-bootstrap';
 
 import { staples, specialties } from '../../utils/data/categories';
+import { getFromStaplesStore, getFromSpecialtiesStore, getFromCardStore } from '../../utils/IDB';
+
+interface ShopCard {
+    name: string,
+    value: number
+}
 
 const categories = staples.concat(specialties);
 
 const PCShop = () => {
     const [categoryShop, setCategoryShop] = useState("");
+    const [cards, setCards] = useState([]);
+    const [storedCategories, setStoredCategories] = useState(null);
+
+
     const generateOptions = () => {
-        let value = -1;
+        let value = 0;
 
         return categories.map((el) => {
             value++;
-            console.log("Staple: ", el)
             return (
                 <option key={`key${value}`} value={value}>{el}</option>
             )
         })
     }
 
-    const generateCardsInOrder = () => {
+    useEffect(() => {
+        async function newShopCategory() {
+            console.log("Print: ", categories, categoryShop)
+            const category = categories[parseInt(categoryShop)];
 
+            const c = await getFromCardStore("cards");
+            const cardsWithValue = await getValuesFromCategory(cards, category);
+            console.log("new shop category: ", cardsWithValue);
+
+            setCards(c);
+            // setStoredCategories(cardsWithValue)
+        }
+
+        newShopCategory();
+    }, [categoryShop])
+
+    const generateCardsInOrder = () => {
+        if (categoryShop === "") return null;
+        const category = categories[parseInt(categoryShop)];
+
+        //Get all cards
+        //Get category index in title
+        //Get all card's values for category
+        //Sort cards from greatest to smallest
         return (
             <div>
-                Display category: {categories[parseInt(categoryShop)]}
-
+                Display category:  {category}
             </div>
         )
     }
 
+    const getValuesFromCategory = async (cards: string[], category: string) => {
+        const stapleTitles = await getFromStaplesStore("titles");
+        const specialtiesTitles = await getFromSpecialtiesStore("titles");
+        let inStaple = stapleTitles.includes(category);
+
+        let categoryValuePair: ShopCard[] = [];
+
+        //Check if category is in staple
+        if (inStaple) {
+            const index = stapleTitles.findIndex((cat: string) => cat === category);
+
+            console.log("In staples", index)
+            return cards.map(async (card: string) => {
+                let value = await getFromStaplesStore(card);
+                return { "name": card, "value": value };
+            })
+        } else {
+            const index = specialtiesTitles.findIndex((cat: string) => cat === category);
+
+            console.log("is specialty", index)
+            return cards.map(async (card: string) => {
+                let value = await getFromSpecialtiesStore(card);
+                return { "name": card, "value": value };
+            })
+        }
+
+        //Check if category is in specialty
+        // console.log("Returning pairs: ", categoryValuePair)
+        // return categoryValuePair;
+        // return [{
+        //     name: "hi",
+        //     value: 3
+        // }]
+    }
+
+
+
     return (
         <div className="">
             <h3>Choose category</h3>
+            {/* TODO Center */}
             <Form>
                 <Form.Row className="align-items-center">
                     <div className="col-6">
-                        <Form.Label className="mr-sm-2" htmlFor="inlineFormCustomSelect" srOnly>
-                            Preference
-                    </Form.Label>
                         <Form.Control
                             as="select"
-                            className="mr-sm-2"
-                            id="inlineFormCustomSelect"
+                            className=""
                             custom
                             onChange={e => {
-                                console.log("e.target.value", e.target.value);
-                                setCategoryShop(e.target.value);
+                                //Subtract 1 because of "Choose.." option
+                                setCategoryShop((parseInt(e.target.value) - 1).toString());
                             }}
                         >
+                            <option key={`key0`} value='0'>Choose..</option>
                             {generateOptions()}
                         </Form.Control>
                     </div>
                 </Form.Row>
             </Form>
             {generateCardsInOrder()}
-
         </div>
     )
 }
