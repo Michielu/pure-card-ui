@@ -102,7 +102,7 @@ const PCShop = () => {
             {/* TODO Center */}
             <Form>
                 <Form.Row className="align-items-center">
-                    <div className="col-6">
+                    <div className="col-6 pc-center-form" >
                         <Form.Control
                             as="select"
                             className=""
@@ -119,7 +119,7 @@ const PCShop = () => {
                 </Form.Row>
             </Form>
             {generateCardsInOrder()}
-        </div>
+        </div >
     )
 }
 
