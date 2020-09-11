@@ -6,8 +6,6 @@ import PCCardForm from './PCCardForm';
 import PCNav from './PCNav';
 import PCShop from './PCShop';
 
-
-
 export {
-    PCAccordian, PCAddCard, PCButton, PCCards, PCCardForm, PCNav, PCShop
-}
+  PCAccordian, PCAddCard, PCButton, PCCards, PCCardForm, PCNav, PCShop,
+};

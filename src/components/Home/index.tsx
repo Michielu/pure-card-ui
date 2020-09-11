@@ -11,7 +11,6 @@ function Home() {
         async function getCards() {
             const c = await getAllFromCardStore();
             setCard(c);
-
         };
         getCards();
     }, []);
@@ -20,9 +19,9 @@ function Home() {
 
     return (
         <div>
-            {card.length > 0 ? null : <PCAddCard></PCAddCard>}
+            {card.length == 0 && <PCAddCard />}
             <br />
-            <PCShop></PCShop>
+            <PCShop />
         </div >
     );
 }
