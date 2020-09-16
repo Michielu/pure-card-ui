@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import { staples, specialties } from '../../utils/data/categories';
 import {
   getFromStaplesStore,
-  // getFromSpecialtiesStore,
+  getFromSpecialtiesStore,
   getFromCardStore,
 } from '../../utils/IDB';
 
@@ -15,47 +15,28 @@ interface ShopCard {
 
 const categories = staples.concat(specialties);
 
-const getAllCardPercentage = async (item) => {
-  return getFromStaplesStore(item);
-};
+const getAllStaplesCardPercentage = async (item) => getFromStaplesStore(item);
+const getAllSpecialtyCardPercentage = async (item) => getFromSpecialtiesStore(item);
 
 const getValuesFromCategory = async (cardNames: string[], category: string) => {
   const stapleTitles = await getFromStaplesStore('titles');
-  //   const specialtiesTitles = await getFromSpecialtiesStore('titles');
-  //   const inStaple = stapleTitles.includes(category);
+  const specialtiesTitles = await getFromSpecialtiesStore('titles');
+  const inStaple = stapleTitles.includes(category);
 
   // const categoryValuePair: ShopCard[] = [];
 
+  let index = -1;
+  let cardPercentages;
   // Check if category is in staple
-  //   if (inStaple) {
-  const index = stapleTitles.findIndex((cat: string) => cat === category);
+  if (inStaple) {
+    index = stapleTitles.findIndex((cat: string) => cat === category);
+    cardPercentages = await Promise.all(cardNames.map((caa: string) => getAllStaplesCardPercentage(caa)));
+    return cardNames.map((name,i) => ({ name, value: cardPercentages[i][index] }));
+  }
 
-  console.log('cardNames:', cardNames);
-
-  console.log('In staples', index);
-  const returnableCardValue = await Promise.all(cardNames.map((caa: string) => {
-    return getAllCardPercentage(caa);
-  }));
-
-  console.log('returnableCard', returnableCardValue);
-
-  return cardNames.map((name) => ({ name, value: returnableCardValue[index] }));
-  //   }
-  //   const index = specialtiesTitles.findIndex((cat: string) => cat === category);
-
-  //   console.log('is specialty', index);
-  //   return cards.map(async (card: string) => {
-  //     const value = await getFromSpecialtiesStore(card);
-  //     return { name: card, value };
-  //   });
-
-  // Check if category is in specialty
-  // console.log("Returning pairs: ", categoryValuePair)
-  // return categoryValuePair;
-  // return [{
-  //     name: "hi",
-  //     value: 3
-  // }]
+  index = specialtiesTitles.findIndex((cat: string) => cat === category);
+  cardPercentages = await Promise.all(cardNames.map((caa: string) => getAllSpecialtyCardPercentage(caa)));
+  return cardNames.map((name, i) => ({ name, value: cardPercentages[i][index] }));
 };
 
 const PCShop = () => {
@@ -79,10 +60,11 @@ const PCShop = () => {
       const category = categories[parseInt(categoryShop)];
 
       const c = await getFromCardStore('cards');
-      console.log("Cards!: ", c);
-         await getValuesFromCategory(c, category);
-    //   console.log('new shop category: ', cardsWithValue);
-      setCards([{'name':'name1', 'value':2}]);
+      console.log('Cards!: ', c);
+      let aaa = await getValuesFromCategory(c, category);
+      //   console.log('new shop category: ', cardsWithValue);
+      console.log("AAA", aaa)
+      setCards([{ name: 'name1', value: 2 }]);
 
     //   setCards(c);
       // setStoredCategories(cardsWithValue)
@@ -93,8 +75,8 @@ const PCShop = () => {
 
   const generateCardsInOrder = () => {
     if (categoryShop === '') return null;
+    // eslint-disable-next-line radix
     const category = categories[parseInt(categoryShop)];
-
 
     // Get all cards
     // Get category index in title
@@ -125,6 +107,7 @@ const PCShop = () => {
               custom
               onChange={(e) => {
                 // Subtract 1 because of "Choose.." option
+                // eslint-disable-next-line radix
                 setCategoryShop((parseInt(e.target.value) - 1).toString());
               }}
             >
