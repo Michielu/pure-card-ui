@@ -31,7 +31,7 @@ const getValuesFromCategory = async (cardNames: string[], category: string) => {
   if (inStaple) {
     index = stapleTitles.findIndex((cat: string) => cat === category);
     cardPercentages = await Promise.all(cardNames.map((caa: string) => getAllStaplesCardPercentage(caa)));
-    return cardNames.map((name,i) => ({ name, value: cardPercentages[i][index] }));
+    return cardNames.map((name, i) => ({ name, value: cardPercentages[i][index] }));
   }
 
   index = specialtiesTitles.findIndex((cat: string) => cat === category);
@@ -57,17 +57,13 @@ const PCShop = () => {
   useEffect(() => {
     async function generateCardValues() {
       console.log('Print: ', categories, categoryShop);
+      // eslint-disable-next-line radix
       const category = categories[parseInt(categoryShop)];
 
       const c = await getFromCardStore('cards');
       console.log('Cards!: ', c);
-      let aaa = await getValuesFromCategory(c, category);
-      //   console.log('new shop category: ', cardsWithValue);
-      console.log("AAA", aaa)
-      setCards([{ name: 'name1', value: 2 }]);
-
-    //   setCards(c);
-      // setStoredCategories(cardsWithValue)
+      const cardValues = await getValuesFromCategory(c, category);
+      setCards(cardValues);
     }
 
     generateCardValues();
@@ -90,6 +86,12 @@ const PCShop = () => {
         Display category:
         {' '}
         {category}
+        {cards.map((el) => (
+          <div key={el.name}>
+            {el.name}
+            {el.value}
+          </div>
+        ))}
       </div>
     );
   };
