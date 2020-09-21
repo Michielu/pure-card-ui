@@ -74,3 +74,8 @@ code {
   }
 
 }
+
+.pc-center-form{
+  margin: 0 auto; 
+  align-self: center;
+}

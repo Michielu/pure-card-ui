@@ -14,21 +14,22 @@ function App() {
     }
 
     setupIDB();
-  }, [])
+  }, []);
 
   return (
     <div>
-      {isDbSetup ?
-        <div>
-          <PCNav />
-          <div className="app-body row">
-            <div className="app-content col-12 col-md-9">
-              <Router ></Router>
+      {isDbSetup
+        ? (
+          <div>
+            <PCNav />
+            <div className="app-body row">
+              <div className="app-content col-12 col-md-9">
+                <Router />
+              </div>
             </div>
           </div>
-        </div> :
-        <div> Loading...</div >
-      }
+        )
+        : <div> Loading...</div>}
     </div>
 
   );

@@ -39,7 +39,7 @@ const getValuesFromCategory = async (cardNames: string[], category: string) => {
   return cardNames.map((name, i) => ({ name, value: cardPercentages[i][index] }));
 };
 
-const PCShop = () => {
+const PCShop = (props) => {
   const [categoryShop, setCategoryShop] = useState('');
   const [cards, setCards] = useState([] as ShopCard[]);
 
@@ -74,13 +74,6 @@ const PCShop = () => {
     // eslint-disable-next-line radix
     const category = categories[parseInt(categoryShop)];
 
-    // Get all cards
-    // Get category index in title
-    // Get all card's values for category
-    // Sort cards from greatest to smallest
-
-    console.log('Cards are: ', cards);
-
     return (
       <div>
         Display category:
@@ -99,7 +92,6 @@ const PCShop = () => {
   return (
     <div className="">
       <h3>Choose category</h3>
-      {/* TODO Center */}
       <Form>
         <Form.Row className="align-items-center">
           <div className="col-6 pc-center-form">
